@@ -1,13 +1,19 @@
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
-import Papa from "papaparse";
+import Papa, { ParseResult } from "papaparse"; // Import ParseResult type
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { reportState, productsState, isModalOpenState } from "../recoilState";
+import {
+  reportState,
+  productsState,
+  isModalOpenState,
+  monthsState,
+} from "../recoilState";
 import { ConvertData } from "../utils/ProcessCsv";
 
 const UploadModal: React.FC = () => {
   const setReport = useSetRecoilState(reportState);
   const setProductsList = useSetRecoilState(productsState);
+  const setMonths = useSetRecoilState(monthsState);
   const [isModalOpen, setIsModalOpen] = useRecoilState(isModalOpenState);
 
   const handleClose = useCallback(() => {
@@ -19,17 +25,18 @@ const UploadModal: React.FC = () => {
       const file = acceptedFiles[0];
       if (file) {
         Papa.parse(file, {
-          complete: (result) => {
+          complete: (result: ParseResult<string[]>) => {
             const data = ConvertData(result.data);
             setReport(data.report);
             setProductsList(data.products);
+            setMonths(data.months);
             handleClose();
           },
           header: false,
         });
       }
     },
-    [reportState, handleClose]
+    [setReport, setProductsList, setMonths, handleClose]
   );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

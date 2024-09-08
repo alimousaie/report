@@ -15,10 +15,10 @@ const ReportTable: React.FC<ReportTableProps> = ({ month, data }) => {
   const selectedProduct = useRecoilValue(selectedProductState);
 
   const filteredData = selectedProduct
-    ? data.filter((row) => row.product === selectedProduct)
+    ? data?.filter((row) => row.product === selectedProduct)
     : data;
 
-  if (filteredData.length === 0) {
+  if (filteredData?.length === 0) {
     return null;
   }
 
@@ -26,7 +26,8 @@ const ReportTable: React.FC<ReportTableProps> = ({ month, data }) => {
     setIsCollapsed((prev) => !prev);
   };
 
-  const sum = filteredData?.reduce((result, row) => (result += row.sales), 0);
+  const sum =
+    filteredData?.reduce((result, row) => (result += row.sales), 0) || 0;
 
   return (
     <div>
@@ -35,7 +36,7 @@ const ReportTable: React.FC<ReportTableProps> = ({ month, data }) => {
         onClick={toggleCollapse}
       >
         <span>
-          {month} ({data.length.toLocaleString()} مورد)
+          {month} ({(data?.length || 0).toLocaleString()} مورد)
         </span>
         <span>{isCollapsed ? <ChevronUp /> : <ChevronDown />}</span>
       </h3>
@@ -49,7 +50,7 @@ const ReportTable: React.FC<ReportTableProps> = ({ month, data }) => {
               </tr>
             </thead>
             <tbody>
-              {filteredData.map((row, index) => (
+              {filteredData?.map((row, index) => (
                 <tr key={index}>
                   <td className="border px-4 py-2">{row.product}</td>
                   <td className="border px-4 py-2">
