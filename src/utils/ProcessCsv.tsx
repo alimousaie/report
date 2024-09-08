@@ -1,11 +1,13 @@
 import { MonthSalesData } from "../recoilState";
 
 export interface Result {
+  months: string[];
   products: string[];
   report: MonthSalesData;
 }
 
 export const ConvertData = (rows: string[][]): Result => {
+  const months: string[] = [];
   let products: string[] = [];
   const report: MonthSalesData = {};
 
@@ -14,7 +16,10 @@ export const ConvertData = (rows: string[][]): Result => {
       return;
     }
 
-    if (isNaN(cols[2])) {
+    const salesAmount = Number(cols[2]); // Convert to number
+    if (isNaN(salesAmount)) {
+      // Check if it's a valid number
+      console.error(`Invalid sales amount: ${cols[2]}`);
       return;
     }
 
@@ -23,6 +28,7 @@ export const ConvertData = (rows: string[][]): Result => {
 
     if (!(month in report)) {
       report[month] = [];
+      months.push(month);
     }
 
     report[month].push({
@@ -39,6 +45,7 @@ export const ConvertData = (rows: string[][]): Result => {
   }
 
   return {
+    months,
     products,
     report,
   };
