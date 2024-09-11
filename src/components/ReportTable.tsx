@@ -45,6 +45,7 @@ const ReportTable: React.FC<ReportTableProps> = ({ month, data }) => {
           <table className="table-auto w-full">
             <thead>
               <tr>
+                <th className="px-4 py-2">ردیف</th>
                 <th className="px-4 py-2">محصول</th>
                 <th className="px-4 py-2">میزان فروش</th>
               </tr>
@@ -52,6 +53,7 @@ const ReportTable: React.FC<ReportTableProps> = ({ month, data }) => {
             <tbody>
               {filteredData?.map((row, index) => (
                 <tr key={index}>
+                  <td className="border px-4 py-2">{row.rank}</td>
                   <td className="border px-4 py-2">{row.product}</td>
                   <td className="border px-4 py-2">
                     {row.sales.toLocaleString()}
@@ -60,10 +62,12 @@ const ReportTable: React.FC<ReportTableProps> = ({ month, data }) => {
               ))}
             </tbody>
             <tfoot>
-              <td></td>
-              <td>
-                <b className="p-2">{sum.toLocaleString()}</b>
-              </td>
+              <tr>
+                <td colSpan={2}></td>
+                <td>
+                  <b className="p-2">{sum.toLocaleString()}</b>
+                </td>
+              </tr>
             </tfoot>
           </table>
         </div>
