@@ -12,19 +12,21 @@ export const ConvertData = (rows: string[][]): Result => {
   const report: MonthSalesData = {};
 
   rows?.forEach((cols) => {
-    if (cols.length < 2) {
+    if (cols.length < 3) {
       return;
     }
 
-    const salesAmount = Number(cols[2]); // Convert to number
-    if (isNaN(salesAmount)) {
-      // Check if it's a valid number
-      console.error(`Invalid sales amount: ${cols[2]}`);
-      return;
-    }
-
-    products.push(cols[1].trim());
     const month = cols[0].trim();
+    const rank = Number(cols[1]);
+    const product = cols[2].trim();
+    const sales = Number(cols[3]);
+
+    if (isNaN(sales)) {
+      console.error(`Invalid sales amount: ${sales}`);
+      return;
+    }
+
+    products.push(product);
 
     if (!(month in report)) {
       report[month] = [];
@@ -32,8 +34,9 @@ export const ConvertData = (rows: string[][]): Result => {
     }
 
     report[month].push({
-      product: cols[1].trim(),
-      sales: +cols[2],
+      rank,
+      product,
+      sales,
     });
   });
 
