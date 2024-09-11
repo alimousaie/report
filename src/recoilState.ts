@@ -5,6 +5,7 @@ export interface MonthSalesData {
 }
 
 export interface SalesData {
+  rank: number;
   product: string;
   sales: number;
 }
@@ -22,18 +23,18 @@ export const productsState = atom<string[]>({
 export const monthsState = atom<string[]>({
   key: "monthsState",
   default: [
-    "فروردین",
-    "اردیبهشت",
-    "خرداد",
-    "تیر",
-    "مرداد",
-    "شهریور",
-    "مهر",
-    "آبان",
-    "آذر",
-    "دی",
-    "بهمن",
-    "اسفند",
+    // "فروردین",
+    // "اردیبهشت",
+    // "خرداد",
+    // "تیر",
+    // "مرداد",
+    // "شهریور",
+    // "مهر",
+    // "آبان",
+    // "آذر",
+    // "دی",
+    // "بهمن",
+    // "اسفند",
   ],
 });
 
@@ -49,7 +50,7 @@ export const selectedProductState = atom<string | null>({
 
 export const layoutModeState = atom<"horizontal" | "stacked">({
   key: "layoutModeState",
-  default: "stacked", // Default to stacked mode
+  default: "horizontal", // Default to stacked mode
 });
 
 export const isModalOpenState = atom<boolean>({
